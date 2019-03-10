@@ -1,17 +1,12 @@
-#include <Arduino.h>
 #include "fonction.hpp"
+#include <Arduino.h>
 
-unsigned long timer = 0;
-long loopTime = 5000;   // microseconds
+float data[] = {-3.51, 1.72};
 
 void setup() {
-  Serial.begin(38400);
-  timer = micros();
+  Serial.begin(115200);
+  sendToPC(data, sizeof(float) * 2);
 }
 
 void loop() {
-  timeSync(loopTime, timer);
-  //int val = analogRead(0) - 512;
-  double val = (analogRead(0) -512) / 512.0;
-  sendToPC(&val);
 }
