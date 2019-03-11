@@ -1,4 +1,4 @@
-#include "fonction.hpp"
+#include "binary_serial.hpp"
 
 void readData(void* data, size_t nbBytes) {
   Serial.readBytes((byte*) data, nbBytes);

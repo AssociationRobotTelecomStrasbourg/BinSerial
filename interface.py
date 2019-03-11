@@ -23,7 +23,6 @@ def computeFormat(structFormat):
     return nbBytes, structTypes
 
 def readData(ser, structFormat):
-    """Read the data"""
     nbBytes, structTypes = computeFormat(structFormat)
     # Wait until all the data is in the buffer
     while ser.in_waiting < nbBytes:
@@ -53,7 +52,7 @@ if __name__ == '__main__':
         time.sleep(2)
         # Test echo
         # Write some data to the arduino
-        writeData(ser, structFormatSent, [2.718, 3.14, 5])
+        writeData(ser, structFormatSent, [2.718, 3.14, 5203])
         # Read the data from the arduino
         data = readData(ser, structFormatReceived)
         # The printed data should be the same

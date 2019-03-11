@@ -1,5 +1,5 @@
-#ifndef FONCTION_HPP
-#define FONCTION_HPP
+#ifndef SERIAL_HPP
+#define SERIAL_HPP
 
 #include <Arduino.h>
 
