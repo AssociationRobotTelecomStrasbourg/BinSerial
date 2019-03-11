@@ -1,15 +1,17 @@
 #include "fonction.hpp"
 #include <Arduino.h>
 
-typedef struct{float a; float b; int16_t c;} test;
+typedef struct{float a; float b; int16_t c;} format;
 
-test data = {2.2, 6.14, 5};
-
+format data;
 
 void setup() {
-  Serial.begin(115200);
-  writeData(&data, sizeof(test));
+  Serial.begin(9600);
 }
 
 void loop() {
+  if (Serial.available()) {
+    Serial.readBytes((byte*)&data, sizeof(format));
+    writeData(&data, sizeof(format));
+  }
 }

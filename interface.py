@@ -28,7 +28,8 @@ def computeFormat(typeArray):
 
     return nbBytes, formatType
 
-def readData():
+def readData(ser, typeArray):
+    nbBytes, formatType = computeFormat(typeArray)
     # Wait until all the data is in the buffer
     while ser.in_waiting < nbBytes:
         pass
@@ -39,16 +40,18 @@ def readData():
     data = list(struct.unpack(formatType, rawData))
     return data
 
-# portName = 'COM5'     # for windows users
-portName = '/dev/ttyUSB0'
-baudRate = 115200
-typeArray = ['float'] * 2 + ['int16']
+def writeData(ser, typeArray):
+    nbBytes, formatType = computeFormat(typeArray)
+    ser.write(struct.pack(formatType, 2.718, 3.14, 5))
 
-nbBytes, formatType = computeFormat(typeArray)
+if __name__ == '__main__':
+    # portName = 'COM5'     # for windows users
+    portName = '/dev/ttyUSB0'
+    baudRate = 9600
+    typeArray = ['float']*2+['int16']
 
-ser = serial.Serial(portName, baudRate, timeout=1)
-
-data = readData()
-print(data)
-
-ser.close()
+    with serial.Serial(portName, baudRate, timeout=1) as ser:
+        time.sleep(2)
+        writeData(ser, typeArray)
+        data = readData(ser, typeArray)
+        print(data)
