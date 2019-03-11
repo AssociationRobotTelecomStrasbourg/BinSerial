@@ -11,7 +11,7 @@ void setup() {
 
 void loop() {
   if (Serial.available()) {
-    Serial.readBytes((byte*)&data, sizeof(format));
+    readData(&data, sizeof(format));
     writeData(&data, sizeof(format));
   }
 }
