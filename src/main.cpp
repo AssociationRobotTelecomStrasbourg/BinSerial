@@ -6,7 +6,7 @@ typedef struct{float a; float b; int16_t c;} format;
 format data;
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
 }
 
 void loop() {

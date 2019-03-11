@@ -47,7 +47,7 @@ def writeData(ser, typeArray):
 if __name__ == '__main__':
     # portName = 'COM5'     # for windows users
     portName = '/dev/ttyUSB0'
-    baudRate = 9600
+    baudRate = 115200
     typeArray = ['float']*2+['int16']
 
     with serial.Serial(portName, baudRate, timeout=1) as ser:
