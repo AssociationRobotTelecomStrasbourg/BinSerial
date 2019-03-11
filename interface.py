@@ -4,13 +4,6 @@ import serial
 import struct
 import time
 
-# print('Trying to connect to: ' + str(serialPort) + ' at ' + str(serialBaud) + ' BAUD.')
-# try:
-#     self.serialConnection = serial.Serial(serialPort, serialBaud, timeout=4)
-#     print('Connected to ' + str(serialPort) + ' at ' + str(serialBaud) + ' BAUD.')
-# except:
-#     print("Failed to connect with " + str(serialPort) + ' at ' + str(serialBaud) + ' BAUD.')
-
 typesDict = {'char': (1, 'c'), 'bool': (1, '?'),
              'int8': (1, 'b'), 'uint8': (1, 'B'),
              'int16': (2, 'h'), 'uint16': (2, 'H'),
@@ -18,18 +11,20 @@ typesDict = {'char': (1, 'c'), 'bool': (1, '?'),
              'int64': (8, 'l'), 'uint64': (8, 'L'),
              'float': (4, 'f')}
 
-def computeFormat(typeArray):
+def computeFormat(structFormat):
+    """Compute the number of bytes to send and the string for struct.(pack/unpack)"""
     nbBytes = 0
-    formatType = ''
+    structTypes = ''
 
-    for t in typeArray:
+    for t in structFormat:
         nbBytes += typesDict[t][0]
-        formatType += typesDict[t][1]
+        structTypes += typesDict[t][1]
 
-    return nbBytes, formatType
+    return nbBytes, structTypes
 
-def readData(ser, typeArray):
-    nbBytes, formatType = computeFormat(typeArray)
+def readData(ser, structFormat):
+    """Read the data"""
+    nbBytes, structTypes = computeFormat(structFormat)
     # Wait until all the data is in the buffer
     while ser.in_waiting < nbBytes:
         pass
@@ -37,21 +32,29 @@ def readData(ser, typeArray):
     rawData = bytearray(nbBytes)
     ser.readinto(rawData)
     # Convert the raw data
-    data = list(struct.unpack(formatType, rawData))
+    data = list(struct.unpack(structTypes, rawData))
     return data
 
-def writeData(ser, typeArray):
-    nbBytes, formatType = computeFormat(typeArray)
-    ser.write(struct.pack(formatType, 2.718, 3.14, 5))
+def writeData(ser, structFormat, data):
+    nbBytes, structTypes = computeFormat(structFormat)
+    rawData = struct.pack(structTypes, *data)
+    ser.write(rawData)
 
 if __name__ == '__main__':
-    # portName = 'COM5'     # for windows users
     portName = '/dev/ttyUSB0'
     baudRate = 115200
-    typeArray = ['float']*2+['int16']
+
+    # Define the format of the structure of data sent
+    structFormatSent = ['float']*2+['int16']
+    structFormatReceived = ['float']*2+['int16']
 
     with serial.Serial(portName, baudRate, timeout=1) as ser:
+        # Wait for the arduino to initilize
         time.sleep(2)
-        writeData(ser, typeArray)
-        data = readData(ser, typeArray)
+        # Test echo
+        # Write some data to the arduino
+        writeData(ser, structFormatSent, [2.718, 3.14, 5])
+        # Read the data from the arduino
+        data = readData(ser, structFormatReceived)
+        # The printed data should be the same
         print(data)
