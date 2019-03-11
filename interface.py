@@ -2,6 +2,7 @@
 
 import serial
 import struct
+import time
 
 # print('Trying to connect to: ' + str(serialPort) + ' at ' + str(serialBaud) + ' BAUD.')
 # try:
@@ -27,28 +28,27 @@ def computeFormat(typeArray):
 
     return nbBytes, formatType
 
-
-def main():
-    # portName = 'COM5'     # for windows users
-    portName = '/dev/ttyUSB0'
-    baudRate = 115200
-    typeArray = ['float']*2
-
-    nbBytes, formatType = computeFormat(typeArray)
-
+def readData():
+    # Wait until all the data is in the buffer
+    while ser.in_waiting < nbBytes:
+        pass
+    # Read the raw data
     rawData = bytearray(nbBytes)
-    with serial.Serial(portName, baudRate, timeout=1) as ser:
-        rawData = struct.pack(formatType, [1.2, 3.14])
-        ser.write(rawData)
+    ser.readinto(rawData)
+    # Convert the raw data
+    data = list(struct.unpack(formatType, rawData))
+    return data
 
-        # Wait until all the data is in the buffer
-        while ser.in_waiting < nbBytes:
-            pass
-        # Read the raw data
-        ser.readinto(rawData)
-        # Convert the raw data
-        data = list(struct.unpack(formatType, rawData))
-        print(data)
+# portName = 'COM5'     # for windows users
+portName = '/dev/ttyUSB0'
+baudRate = 115200
+typeArray = ['float'] * 2 + ['int16']
 
-if __name__ == '__main__':
-    main()
+nbBytes, formatType = computeFormat(typeArray)
+
+ser = serial.Serial(portName, baudRate, timeout=1)
+
+data = readData()
+print(data)
+
+ser.close()

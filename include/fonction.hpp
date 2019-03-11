@@ -1,8 +1,8 @@
 #ifndef FONCTION_HPP
 #define FONCTION_HPP
 
-#include <stdint.h>
+#include <Arduino.h>
 
-void sendToPC(void* data, uint32_t nbBytes);
+void writeData(void* data, uint32_t nbBytes);
 
 #endif

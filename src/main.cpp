@@ -1,11 +1,14 @@
 #include "fonction.hpp"
 #include <Arduino.h>
 
-float data[] = {-3.51, 1.72};
+typedef struct{float a; float b; int16_t c;} test;
+
+test data = {2.2, 6.14, 5};
+
 
 void setup() {
   Serial.begin(115200);
-  sendToPC(data, sizeof(float) * 2);
+  writeData(&data, sizeof(test));
 }
 
 void loop() {
