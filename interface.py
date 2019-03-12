@@ -40,7 +40,7 @@ def writeData(ser, structFormat, data):
     ser.write(rawData)
 
 if __name__ == '__main__':
-    portName = '/dev/ttyUSB0'
+    portName = '/dev/ttyACM0'
     baudRate = 115200
 
     # Define the format of the structure of data sent

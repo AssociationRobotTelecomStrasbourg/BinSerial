@@ -7,11 +7,9 @@ format data;
 
 void setup() {
   Serial.begin(115200);
+  readData(&data, sizeof(format));
+  writeData(&data, sizeof(format));
 }
 
 void loop() {
-  if (Serial.available()) {
-    readData(&data, sizeof(format));
-    writeData(&data, sizeof(format));
-  }
 }

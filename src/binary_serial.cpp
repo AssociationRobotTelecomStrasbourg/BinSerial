@@ -1,6 +1,7 @@
 #include "binary_serial.hpp"
 
 void readData(void* data, size_t nbBytes) {
+  while (Serial.available() < nbBytes);
   Serial.readBytes((byte*) data, nbBytes);
 }
 
