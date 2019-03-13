@@ -4,26 +4,25 @@ import serial
 import struct
 import time
 
-typesDict = {'char': (1, 'c'), 'bool': (1, '?'),
-             'int8': (1, 'b'), 'uint8': (1, 'B'),
-             'int16': (2, 'h'), 'uint16': (2, 'H'),
-             'int32': (4, 'i'), 'uint32': (4, 'I'),
-             'int64': (8, 'l'), 'uint64': (8, 'L'),
-             'float': (4, 'f')}
+typesDict = {'char': 'c', 'bool': '?',
+             'int8': 'b', 'uint8': 'B',
+             'int16': 'h', 'uint16': 'H',
+             'int32': 'i', 'uint32': 'I',
+             'int64': 'l', 'uint64': 'L',
+             'float': 'f'}
 
 def computeFormat(structFormat):
-    """Compute the number of bytes to send and the string for struct.(pack/unpack)"""
-    nbBytes = 0
-    structTypes = ''
+    """Compute the format string for struct.(pack/unpack)"""
+    structTypes = '='
 
     for t in structFormat:
-        nbBytes += typesDict[t][0]
-        structTypes += typesDict[t][1]
+        structTypes += typesDict[t]
 
-    return nbBytes, structTypes
+    return structTypes
 
 def readData(ser, structFormat):
-    nbBytes, structTypes = computeFormat(structFormat)
+    structTypes = computeFormat(structFormat)
+    nbBytes = struct.calcsize(structTypes)
     # Wait until all the data is in the buffer
     while ser.in_waiting < nbBytes:
         pass
@@ -35,7 +34,7 @@ def readData(ser, structFormat):
     return data
 
 def writeData(ser, structFormat, data):
-    nbBytes, structTypes = computeFormat(structFormat)
+    structTypes = computeFormat(structFormat)
     rawData = struct.pack(structTypes, *data)
     ser.write(rawData)
 
