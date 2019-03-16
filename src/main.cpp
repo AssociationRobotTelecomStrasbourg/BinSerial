@@ -7,8 +7,8 @@ format data;
 
 void setup() {
   Serial.begin(115200);
-  readData(&data, sizeof(format));
-  writeData(&data, sizeof(format));
+  readData(&data, sizeof(data));
+  writeData(&data, sizeof(data));
 }
 
 void loop() {
