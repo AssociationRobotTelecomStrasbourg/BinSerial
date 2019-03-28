@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""BinSerial is a library to transmit data in binary via serial link.
+"""BinSerial is a library to transmit data structure in binary via serial link.
 
 TODO:
 - Finish Documentation.
-- Catch potential exceptions
-- Implement multi-treading.
+- Check if compatible with multi-treading.
+- Catch potential exceptions?
 
 """
 
