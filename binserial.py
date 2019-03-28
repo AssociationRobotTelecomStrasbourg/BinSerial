@@ -19,6 +19,7 @@ import serial
 # To convert binary data
 import struct
 import time
+import argparse
 
 
 class BinSerial:
@@ -107,7 +108,12 @@ class BinSerial:
 
 
 if __name__ == '__main__':
-    port_name = '/dev/ttyUSB0'
+    ap = argparse.ArgumentParser()
+    ap.add_argument("-p", "--port-name", default='/dev/ttyUSB0',
+                    help="Port name of the serial port")
+    args = vars(ap.parse_args())
+
+    port_name = args['port_name']
     baud_rate = 115200
 
     # Define the format of the structure of the data
