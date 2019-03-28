@@ -62,7 +62,7 @@ class BinSerial:
     def read(self, struct_format):
         """Read data from serial link with struct_format."""
         # Compute the format caracters
-        format_caracters = self.compute_format(struct_format)
+        format_caracters = self._compute_format(struct_format)
         # Calculate the number of bytes needed
         nb_bytes = struct.calcsize(format_caracters)
 
@@ -82,7 +82,7 @@ class BinSerial:
     def write(self, struct_format, data):
         """Write data to serial link with struct_format."""
         # Compute the format caracters
-        format_caracters = self.compute_format(struct_format)
+        format_caracters = self._compute_format(struct_format)
 
         # Convert data in binary
         raw_data = struct.pack(format_caracters, *data)
@@ -91,7 +91,7 @@ class BinSerial:
 
 
 if __name__ == '__main__':
-    port_name = '/dev/ttyACM0'
+    port_name = '/dev/ttyUSB0'
     baud_rate = 115200
 
     # Define the format of the structure of the data
@@ -103,5 +103,5 @@ if __name__ == '__main__':
     # Test echo
     bser.write(struct_format, [2.718, 3.14, 5203])
     data = bser.read(struct_format)
-    
+
     print(data)
