@@ -41,7 +41,7 @@ class BinSerial:
         # Open serial link
         self.ser = serial.Serial(self.port_name, self.baud_rate, timeout=1)
 
-        # Wait for initialisation
+        # Wait for initialization
         time.sleep(2)
 
     def __del__(self):
@@ -49,7 +49,11 @@ class BinSerial:
         self.ser.close()
 
     def _compute_format(self, struct_format):
-        """Compute the format caracters to convert binary data."""
+        """Compute the format caracters from struct_format.
+
+        struct_format -- array of the struct types
+                         (see keys BinSerial.format_dict)
+        """
         # Set byte order to native and no alignement for the binary data
         format_caracters = '='
 
@@ -60,7 +64,14 @@ class BinSerial:
         return format_caracters
 
     def read(self, struct_format):
-        """Read data from serial link with struct_format."""
+        """Read data from serial link with struct_format.
+
+        struct_format -- array of the struct types
+                         (see keys BinSerial.format_dict)
+
+        Return:
+        data -- array containing the data read
+        """
         # Compute the format caracters
         format_caracters = self._compute_format(struct_format)
         # Calculate the number of bytes needed
@@ -80,7 +91,12 @@ class BinSerial:
         return data
 
     def write(self, struct_format, data):
-        """Write data to serial link with struct_format."""
+        """Write data to serial link with struct_format.
+
+        struct_format -- array of the struct types
+                         (see keys BinSerial.format_dict)
+        data -- array containing the data to write
+        """
         # Compute the format caracters
         format_caracters = self._compute_format(struct_format)
 
