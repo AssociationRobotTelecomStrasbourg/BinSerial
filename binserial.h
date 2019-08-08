@@ -1,5 +1,5 @@
-#ifndef SERIAL_HPP
-#define SERIAL_HPP
+#ifndef BinSerial_H
+#define BinSerial_H
 
 #include <Arduino.h>
 

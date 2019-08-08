@@ -78,13 +78,10 @@ class BinSerial:
         # Calculate the number of bytes needed
         nb_bytes = struct.calcsize(format_caracters)
 
-        # Wait until all the data is in the buffer
-        while self.ser.in_waiting < nb_bytes:
-            pass
-
-        # Read the raw data
-        raw_data = bytearray(nb_bytes)
-        self.ser.readinto(raw_data)
+        # Read requested data
+        raw_data = b""
+        while len(raw_data) < nb_bytes:
+            raw_data += self.ser.read(nb_bytes - len(raw_data))
 
         # Convert the raw data
         data = list(struct.unpack(format_caracters, raw_data))
@@ -114,7 +111,7 @@ if __name__ == '__main__':
     args = vars(ap.parse_args())
 
     port_name = args['port_name']
-    baud_rate = 115200
+    baud_rate = 9600
 
     # Define the format of the structure of the data
     struct_format = ['float']*2+['int16']

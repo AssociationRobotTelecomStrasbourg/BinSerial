@@ -1,4 +1,4 @@
-#include "binary_serial.hpp"
+#include "bin_serial.h"
 
 void readData(void* data, size_t nbBytes) {
   while (Serial.available() < nbBytes);
