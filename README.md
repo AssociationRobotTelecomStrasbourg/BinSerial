@@ -15,3 +15,7 @@ python3 binserial.py --port-name /dev/ttyUSB0
 Replace `/dev/ttyUSB0` by the name of your serial port (e.g. `/dev/ttyACM0`, `COM1`…)
 
 It should print `[2.718, 3.14, 5203]`.
+
+## To do
+- [ ] Add checksum
+- [ ] Add documentation
