@@ -32,8 +32,8 @@ class BinSerial:
                             'int8': 'b', 'uint8': 'B',
                             'int16': 'h', 'uint16': 'H',
                             'int32': 'i', 'uint32': 'I',
-                            'int64': 'l', 'uint64': 'L',
-                            'float': 'f'}
+                            'int64': 'q', 'uint64': 'Q',
+                            'float': 'f', 'double': 'd'}
         # Port name of the serial port
         self.port_name = port_name
         # Baud rate of the connection
