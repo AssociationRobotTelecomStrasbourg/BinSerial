@@ -1,11 +1,11 @@
-#include "bin_serial.h"
+#include "binserial.h"
 
 void readData(void* data, size_t nbBytes) {
   while (Serial.available() < nbBytes);
-  Serial.readBytes((byte*) data, nbBytes);
+  Serial.readBytes((char*) data, nbBytes);
 }
 
-void writeData(void* data, size_t nbBytes) {
-  byte* byteData = (byte*) data;
+void writeData(const void* data, size_t nbBytes) {
+  char* byteData = (char*) data;
   Serial.write(byteData, nbBytes);
 }
