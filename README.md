@@ -16,5 +16,3 @@ Replace `/dev/ttyUSB0` by the name of your serial port (e.g. `/dev/ttyACM0`, `CO
 
 It should print `[2.718, 3.14, 5203]`.
 
-## To do
-- [ ] Add documentation
